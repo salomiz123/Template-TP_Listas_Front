@@ -15,9 +15,6 @@ fetch('./data/comidas.json')          // Ruta al archivo JSON
 let comidas = [];
 
 
-let comidas = [];
-
-
 const container = document.getElementById('comidaContainer');
 
 
@@ -50,5 +47,39 @@ let nuevacomida = {
 
 comidas.push(nuevacomida)
 mostrarComidaConforeach()
+agregar server
+fetch(api de donde se saca la info)
+.then(response => response.json())
+.then(data =>{
+console.log('comidas cargadas de json')
+console.log(data)
+comidas = data;
+mostrarComidaConforeach)}
+
+.catch(error  => {
+console.log('error al leer el archivo json,error')
+
+
+})
+let  comidas =[];
+
+const comidaContainer = document.getElementById("comida cocntainer")
+
+function mostrarComidaConforeach (){
+
+}
+mostrarComidaConforeach()
+
+const agregarComidaForm = document.getElementById('aregarcomidaform')
+
+agregarComidaForm.addEventListener("submit,(event" =>{
+  
+}
+  
+)
+
+
+
+
 
 
