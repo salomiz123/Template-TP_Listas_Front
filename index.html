@@ -3,22 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comidas Argentinas</title> 
-    <link rel="stylesheet" href="style.css"> 
+    <title>Comidas Argentinas</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
-      <!-- Para filtros y navegacion -->
+      <input type=" search" id="buscador" placeholder="busca por nombre,provincia y categoria>
+      <select id="filtroscategoria">
+      <option value="">todas la categorias</option>
+      <option value="parilla">parilla</option>
+      <option value="horno">horno</option>
+      <option value="guiso">guiso</option>
+      <option value="frito">frito</option>
+    </select>
+<select id ="filtroprovincia">
+  <option value="">todas las provincias</option>
+  <option value="jujuy">jujuy</option>
+  <option value="salta">salta</option>
+  <option value="tierra del fuego">tierra del fuego</option>
+
+
+
+    </select>
+
+
+
+
     </header>
 
+
     <main class="comida-container" id="comidaContainer">
-        <!-- Contenido Dinamico -->
-    </main>     
+           <!-- Contenido Dinamico -->
+    </main>    
+
 
     <section class="addFood">
+      <form id="agregarComida">
+        <h2> Agregar</h2>
+        <label for="nombredecomida">Nombre</label>
+        <input type="text" id="nombre" name="nombre" required>
+        <label for="categoriacomida">Categoria</label>
+        <input type="text" id="categoria" name="categoria" required>
+        <label for="provinciacomida">Provincia</label>
+        <input type="text" id="provincia" name="provincia" required>
+
+
+        <button type="submit">Send</button>
+      </form>
       <!-- Para el form para agregar comida -->
     </section>
+
 
     <script type="module" src="./main.js"></script>
 </body>
 </html>
+

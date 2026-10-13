@@ -1,85 +1,73 @@
+
 /*
     Cargar comidas en memoria desde el JSON
 */
-fetch('./data/comidas.json')          // Ruta al archivo JSON
-  .then(response => response.json())  // Convertir la respuesta en JSON
-  .then(data => {                     // Aquí tienes acceso al JSON en formato de objeto JS
-    console.log('Comidas cargadas desde JSON:');
-    console.log(data);    
-    comidas = data;                   // Asignar el JSON a la variable comidas
-  })
-  .catch(error => {                   // Manejo de errores al leer el archivo JSON
-    console.error('Error al leer el archivo JSON:', error);
-  });
-
-let comidas = [];
-
-
+fetch('./data/comidas.json')
+.then(response => response.json())
+.then(data =>{
+  console.log("comidas cargadas desde JSON");
+  console.log(data);
+  comidas = data;
+  agregar();
+})
+.catch(error =>{
+  console.log("Error al leer el archivo JSON")
+})
+let comidas = []
 const container = document.getElementById('comidaContainer');
 
 
-
-
-
-
-mostrarComidaConforeach()
-
-
-const agregarComidaform = document.getElementById("agregarComidaForm")
-
-
-agregarComidaform.addEventListener("submit", (event) => (
-
-
-alert("Comida agregada" +  event.target.nombre.value)
-
-
-))
-
-
-let nuevacomida = {
-  nombre: event.target.nombre.value
-  categoria:event.target.categoria.value
-  provincia: event.target.provincia.value
-  ingredientes: event.target.ingredientes.value
+function agregar(){
+  container.innerHTML = ""
+  comidas.forEach( comida => {
+   container.innerHTML +=
+   `
+   <article class="card">
+   <h2>${comida.nombre}</h2>
+   <p>${comida.provincia}</p>
+   <span class="categoria">${comida.categoria}</span>
+   <ul class="ingredientes">${comida.ingredientes}</ul>
+   </article>
+   `
+  } )
 }
 
 
-comidas.push(nuevacomida)
-mostrarComidaConforeach()
-agregar server
-fetch(api de donde se saca la info)
-.then(response => response.json())
-.then(data =>{
-console.log('comidas cargadas de json')
-console.log(data)
-comidas = data;
-mostrarComidaConforeach)}
-
-.catch(error  => {
-console.log('error al leer el archivo json,error')
+agregar()
 
 
+const agregarComida = document.getElementById("agregarComida")
+agregarComida.addEventListener("submit", (event) =>{
+  event.preventDefault()
+  let nuevaComida ={
+    nombre: event.target.nombre.value,
+    categoria: event.target.categoria.value,
+    provincia: event.target.categoria.value,
+    ingredientes: ""
+  }
+  comidas.push(nuevaComida)
+  agregar()
+  console.log(nuevaComida)
 })
-let  comidas =[];
+const buscador = document.getElementById("buscador")
+const filtrocategoria= document.getElementById("filtrarprovincia")
+  const filtroprovincia= document.getElementById(filtrocategoria)
 
-const comidaContainer = document.getElementById("comida cocntainer")
-
-function mostrarComidaConforeach (){
-
+function filtrar (){
+  const comidasfiltradas = comidas.filter(comida =>{ 
+    return comida.categoria.includes(filtrocategoria.value)
+    comida.provincia.includes(filtroprovincia.value)
+  })
+  mostrarcomidas(comidasfiltradas)
 }
-mostrarComidaConforeach()
+function buscar( ) {
+  const texto = buscador.value.toLowerCase()
 
-const agregarComidaForm = document.getElementById('aregarcomidaform')
-
-agregarComidaForm.addEventListener("submit,(event" =>{
-  
+  const comidasfiltradas = comidas.filtrar(=>
+    
+  )
 }
-  
-)
-
-
-
-
-
-
+  filtrocategoria.addEventListener("change",filtrar)
+  filtrocategoria.addEventListener("change",filtrar)
+  buscador.addEventListener( "input",buscar)
+ 
