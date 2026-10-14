@@ -1,5 +1,5 @@
 
-
+*{
 box-sizing: border-box;
 margin: 0;
 padding: 0px;
@@ -28,7 +28,7 @@ border-radius: 25px;
 border: solid, black, 0.3rem;
 font-family: "Nunito Sans", sans-serif;
 font-optical-sizing: auto;
-font-weight: <weight>;
+font-weight: weight;
 font-style: normal;
 font-variation-settings:
 "wdth" 100,
@@ -42,7 +42,7 @@ background-color: white;
 border: solid, black, 0.1rem;
 font-family: "Nunito Sans", sans-serif;
 font-optical-sizing: auto;
-font-weight: <weight>;
+font-weight: weight;
 font-style: normal;
 font-variation-settings:
 "wdth" 100,
@@ -59,7 +59,7 @@ flex-direction: column;
 width: 20rem;
 font-family: "Nunito Sans", sans-serif;
 font-optical-sizing: auto;
-font-weight: <weight>;
+font-weight: weight;
 font-style: normal;
 font-variation-settings:
 "wdth" 100,
