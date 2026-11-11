@@ -1,124 +1,168 @@
-/*
-    Cargar comidas en memoria desde el JSON
-*/
-fetch('./data/comidas-extended.json')          // Ruta al archivo JSON
-  .then(response => response.json())  // Convertir la respuesta en JSON
-  .then(data => {                     // Aquí tienes acceso al JSON en formato de objeto JS
-    console.log('Comidas cargadas desde JSON:');
-    console.log(data);    
-    comidas = data;
-    mostrarlasComidaConforeach(comidas)})               // Asignar el JSON a la variable comidas
- 
-  .catch(error => {                   // Manejo de errores al leer el archivo JSON
-    console.log('Error al leer el archivo JSON:', error);
-  });
-
-
- 
-
-
-let comidas = [];
+let comidas = [
+  {
+    "nombre": "Asado",
+    "categoria": "Parrilla",
+    "provincia": "Buenos Aires",
+    "ingredientes": ["Carne vacuna", "Sal", "Chimichurri"]
+  },
+  {
+    "nombre": "Empanadas",
+    "categoria": "Horno",
+    "provincia": "Tucumán",
+    "ingredientes": ["Carne", "Cebolla", "Aceitunas", "Huevo"]
+  },
+  {
+    "nombre": "Locro",
+    "categoria": "Guiso",
+    "provincia": "Salta",
+    "ingredientes": ["Maíz", "Porotos", "Chorizo", "Panceta", "Zapallo"]
+  },
+  {
+    "nombre": "Milanesa",
+    "categoria": "Frito",
+    "provincia": "Buenos Aires",
+    "ingredientes": ["Carne", "Huevo", "Pan rallado", "Aceite"]
+  },
+  {
+    "nombre": "Humita en Chala",
+    "categoria": "Horno",
+    "provincia": "Jujuy",
+    "ingredientes": ["Maíz", "Queso", "Cebolla", "Ají molido"]
+  },
+  {
+    "nombre": "Choripán",
+    "categoria": "Parrilla",
+    "provincia": "Córdoba",
+    "ingredientes": ["Chorizo", "Pan", "Chimichurri"]
+  },
+  {
+    "nombre": "Provoleta",
+    "categoria": "Parrilla",
+    "provincia": "Buenos Aires",
+    "ingredientes": ["Queso provolone", "Orégano", "Aceite de oliva"]
+  },
+  {
+    "nombre": "Milanesas a la napolitana",
+    "categoria": "Frito",
+    "provincia": "Santa Fe",
+    "ingredientes": ["Carne", "Tomate", "Queso", "Jamón", "Orégano"]
+  },
+  {
+    "nombre": "Matambre a la pizza",
+    "categoria": "Parrilla",
+    "provincia": "Buenos Aires",
+    "ingredientes": ["Matambre", "Queso", "Tomate", "Orégano"]
+  },
+  {
+    "nombre": "Torta Frita",
+    "categoria": "Frito",
+    "provincia": "Entre Ríos",
+    "ingredientes": ["Harina", "Agua", "Sal", "Grasa"]
+  }
+];
 
 
 const container = document.getElementById('comidaContainer');
+const formcomidanueva = document.getElementById('agregarComida');
+const buscador = document.getElementById("buscador");
+const buscadorIngrediente = document.getElementById("buscadorIngrediente");
+const filtroCategoria = document.getElementById("filtroCategoria");
+const filtroProvincia = document.getElementById("filtroProvincia");
 
 
-function agregar() {
-  container.innerHTML = ""
-  comidas.forEach( comida => {
-   container.innerHTML +=
-   `
-   <article class="card">
-   <h2>${comida.nombre}</h2>
-   <p>${comida.provincia}</p>
-   <span class="categoria">${comida.categoria}</span>
-   <ul class="ingredientes">${comida.ingredientes}</ul>
-   </article>
-   `
-  } )
+function mostrarComidasConForEach(listaComidas) {
+  container.innerHTML = "";
 
 
+  if (listaComidas.length === 0) {
+    container.innerHTML = `<p style="grid-column: 1 / -1; text-align: center; color: #777;">No se encontraron comidas que coincidan con la búsqueda.</p>`;
+    return;
+  }
+ 
+  listaComidas.forEach(tarjeta => {
+    container.innerHTML += `
+      <article class="card">
+        <span class="categoria">${tarjeta.categoria}</span>
+        <h2>${tarjeta.nombre}</h2>
+        <p>${tarjeta.provincia}</p>
+        <ul>
+          ${tarjeta.ingredientes.map(ingrediente => `<li>${ingrediente}</li>`).join("")}
+        </ul>
+      </article>
+    `;
+  });
 }
-
-
-agregar()
-
-
-mostrarComidaConforeach()
-
-
-const agregarComidaform = document.getElementById("agregarComidaForm")
-
-
-agregarComidaform.addEventListener("submit", (event) => (
-
-
-alert("Comida agregada" +  event.target.nombre.value)
-
-
-))
-
-
-const agregarComida = document.getElementById("agregarComida")
-agregarComida.addEventListener("submit", (event) =>{
-  event.preventDefault()
-
-
-let nuevacomida = {
-  nombre: event.target.nombre.value,
-categoria:event.target.categoria.value,
- provincia: event.target.provincia.value,
-  ingrediente: event.target.ingredientes.value,
-}
-
-
-comidas.push(nuevacomida)
-agregar()
-console.log(nuevacomida)
-mostrarComidaConforeach()
-})
-
-
-const buscador = document.getElementById("buscador")
-const filtroCategoria = document.getElementById("filtroCategoria")
-const filtroProvincia = document.getElementById("filtroProvincia")
 
 
 function filtrar() {
-  const comidasFiltradas = comidas.filter( comida => {
-    return comida.categoria.includes(filtroCategoria.value)
-    && comida.provincia.includes(filtroProvincia.value)
-   })
+  const textoNombre = buscador.value.toLowerCase().trim();
+  const textoIngrediente = buscadorIngrediente.value.toLowerCase().trim();
+  const cat = filtroCategoria.value;
+  const prov = filtroProvincia.value;
+
+
+  const comidasfiltradas = comidas.filter(comida => {
+    const coincideNombre = comida.nombre.toLowerCase().includes(textoNombre);
+   
+    const coincideIngrediente = comida.ingredientes.some(ing =>
+      ing.toLowerCase().includes(textoIngrediente)
+    );
+
+
+    const coincideCat = cat === "" || comida.categoria === cat;
+    const coincideProv = prov === "" || comida.provincia === prov;
+   
+    return coincideNombre && coincideIngrediente && coincideCat && coincideProv;
+  });
+ 
+  mostrarComidasConForEach(comidasfiltradas);
 }
 
 
-function buscar(){
-const texto = buscador.value.toLowerCase()
+buscador.addEventListener("input", filtrar);
+buscadorIngrediente.addEventListener("input", filtrar);
+filtroCategoria.addEventListener("change", filtrar);
+filtroProvincia.addEventListener("change", filtrar);
 
 
-const comidasFiltradas = comidas.filter( comida => {
-  return comida.nombre.toLowerCase().includes(texto)
-  ||  comida.provincia.toLowerCase().includes(texto)
-  ||  comida.categoria.toLowerCase().includes(texto)
-})
-mostrarComidas(comidasFiltradas)
-}
+mostrarComidasConForEach(comidas);
 
 
-filtroCategoria.addEventListener ("change", filtrar)
-filtroProvincia.addEventListener ("change", filtrar)
-buscador.addEventListener("input", buscar)
+formcomidanueva.addEventListener("submit", (e) => {
+  e.preventDefault();
 
-const agregaringredientes = document.getElementById("agregaringredientes")
-const ingredientescontainer = document.getElementById("conteenedor-ingredientes")
-ingredientescontainer.innerHTML + <input type ="text" class="ingrediente" placeholder= "un ingrediente por dos" required></input>
 
-let categoria = []
+  const nuevoNombre = e.target.nombre.value.trim();
+  const nuevaCategoria = e.target.categoria.value.trim();
+  const nuevaProvincia = e.target.provincia.value.trim();
+  const ingredientesInput = e.target.ingredientes.value;
 
-comidas.forEach(comida =>{
-  categorias.push(comida.categoria)
-})
-categoria.forEach(categoria =>
-{
-filtroCategoria.innerHTML += <Option value>"$(categoria") $(categoria)</Option>
-})
+
+  if (!nuevoNombre || !nuevaCategoria || !nuevaProvincia || !ingredientesInput) {
+    alert("Por favor, completá todos los campos.");
+    return;
+  }
+
+
+  const listaIngredientes = ingredientesInput
+    .split(",")
+    .map(ing => ing.trim())
+    .filter(ing => ing !== "");
+
+
+  const nuevaComida = {
+    nombre: nuevoNombre,
+    categoria: nuevaCategoria,
+    provincia: nuevaProvincia,
+    ingredientes: listaIngredientes
+  };
+
+
+  comidas.push(nuevaComida);
+  localStorage.setItem("comidas", JSON.stringify(comidas));
+
+
+  filtrar();
+  e.target.reset();
+});
+
